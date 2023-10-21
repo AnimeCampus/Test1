@@ -64,6 +64,7 @@ async def download_pinterest_images(client: Client, message: Message):
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
 
+print("started")
 if __name__ == "__main__":
     with app:
         app.run()
