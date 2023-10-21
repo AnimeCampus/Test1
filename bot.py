@@ -1,13 +1,15 @@
-from pyrogram import Client, filters, idle
+from pyrogram import Client, filters
 from pyrogram.types import Message
 import requests
 from bs4 import BeautifulSoup
+import logging
+
 
 # Replace with your actual API ID, API hash, and bot token
 api_id = "28640015"
 api_hash = "e8f539f9fcca3eb5284edababf5062fe"
 bot_token = "6062250856:AAEI_suUfM-_MKhJT5cODnWgYJbkH3To9o4"
-
+chat_id = "-1002058050288"  # Replace with the chat ID where you want to send logs and errors
 
 # Create the Pyrogram client
 app = Client(
@@ -16,6 +18,21 @@ app = Client(
     api_hash=api_hash,
     bot_token=bot_token
 )
+
+# Set up logging
+logging.basicConfig(
+    level=logging.INFO,
+    filename='bot.log',  # Log file name
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+# Function to send log messages to the specified chat
+async def send_log_to_chat(text):
+    try:
+        await app.send_message(chat_id, text)
+    except Exception as e:
+        logger.error(f"Failed to send log to chat: {str(e)}")
 
 @app.on_message(filters.command("download"))
 async def download_pinterest_images(client: Client, message: Message):
@@ -63,9 +80,16 @@ async def download_pinterest_images(client: Client, message: Message):
         else:
             await message.reply("Failed to access Pinterest search results.")
     except Exception as e:
-        await message.reply(f"An error occurred: {str(e)}")
+        error_message = f"An error occurred: {str(e)}"
+        logger.error(error_message)
+        await message.reply(error_message)
+        await send_log_to_chat(error_message)
+
+@app.on_ready
+async def on_ready(client, _):
+    deployed_message = "Bot deployed and ready to serve!"
+    logger.info(deployed_message)
+    await send_log_to_chat(deployed_message)
 
 print("Bot started")
-
 app.run()
-idle()
