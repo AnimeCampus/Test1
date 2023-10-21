@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 import requests
 from bs4 import BeautifulSoup
@@ -16,7 +16,7 @@ app = Client(
     bot_token=bot_token
 )
 
-@app.on_message(filters.command("download"))
+@Client.on_message(filters.command("download"))
 async def download_pinterest_images(client: Client, message: Message):
     try:
         # Get the user's query from the message text after the /download command
@@ -65,7 +65,5 @@ async def download_pinterest_images(client: Client, message: Message):
         await message.reply(f"An error occurred: {str(e)}")
 
 print("started")
-if __name__ == "__main__":
-    with app:
-        app.run()
-      
+app.run()
+idle()
