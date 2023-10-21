@@ -16,7 +16,7 @@ app = Client(
     bot_token=bot_token
 )
 
-@Client.on_message(filters.command("download"))
+@app.on_message(filters.command("download"))
 async def download_pinterest_images(client: Client, message: Message):
     try:
         # Get the user's query from the message text after the /download command
