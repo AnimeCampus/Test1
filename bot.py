@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 import requests
 from bs4 import BeautifulSoup
@@ -97,7 +97,5 @@ async def download_pinterest_images(client: Client, message: Message):
         await send_log_to_chat(error_message)
 
 print("Bot started")
-
-if __name__ == "__main__":
-    app.start()
-    app.idle()
+app.run()
+idle()
