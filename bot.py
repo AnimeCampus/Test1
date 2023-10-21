@@ -8,6 +8,7 @@ api_id = "28640015"
 api_hash = "e8f539f9fcca3eb5284edababf5062fe"
 bot_token = "6062250856:AAEI_suUfM-_MKhJT5cODnWgYJbkH3To9o4"
 
+
 # Create the Pyrogram client
 app = Client(
     "pinterest_bot",
@@ -64,6 +65,7 @@ async def download_pinterest_images(client: Client, message: Message):
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
 
-print("started")
+print("Bot started")
+
 app.run()
 idle()
