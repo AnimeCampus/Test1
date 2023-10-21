@@ -85,11 +85,5 @@ async def download_pinterest_images(client: Client, message: Message):
         await message.reply(error_message)
         await send_log_to_chat(error_message)
 
-@app.on_ready
-async def on_ready(client, _):
-    deployed_message = "Bot deployed and ready to serve!"
-    logger.info(deployed_message)
-    await send_log_to_chat(deployed_message)
-
 print("Bot started")
 app.run()
