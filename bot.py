@@ -34,6 +34,17 @@ async def send_log_to_chat(text):
     except Exception as e:
         logger.error(f"Failed to send log to chat: {str(e)}")
 
+@app.on_message(filters.command("start"))
+async def start_command(client: Client, message: Message):
+    # This command sends a welcome message when the user types /start
+    await message.reply("Welcome to the Pinterest Image Download Bot! Use /help to learn how to use this bot.")
+
+@app.on_message(filters.command("help"))
+async def help_command(client: Client, message: Message):
+    # This command sends instructions on how to use the bot when the user types /help
+    help_text = "This bot allows you to download Pinterest images. To use it, simply type /download followed by your search query."
+    await message.reply(help_text)
+
 @app.on_message(filters.command("download"))
 async def download_pinterest_images(client: Client, message: Message):
     try:
@@ -86,4 +97,7 @@ async def download_pinterest_images(client: Client, message: Message):
         await send_log_to_chat(error_message)
 
 print("Bot started")
-app.run()
+
+if __name__ == "__main__":
+    app.start()
+    app.idle()
